@@ -12,6 +12,7 @@ import com.exmpl.demo.exceptions.CarNotFoundException;
 import com.exmpl.demo.models.Car;
 import com.exmpl.demo.services.CarService;
 import org.springframework.web.servlet.ModelAndView;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping("/")
@@ -29,6 +30,23 @@ public class CarController {
         model.setViewName("cars-table");
         return list;
     }
+
+
+    @GetMapping("/search")
+    public @ResponseBody List<Car> getAllCarsByPartialMark(@RequestParam("mark") String line) {
+        return service.getAllCarsStartsWith(line);
+    }
+
+
+    @GetMapping("/paged")
+    public @ResponseBody List<Car> getAllCarsByPage(
+            @RequestParam(defaultValue = "0") Integer pageNumber,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy
+    ) {
+        return service.getAllCarsPaged(pageNumber, pageSize, sortBy);
+    }
+
 
     @GetMapping({"/edit", "/edit/{id}"})
     public String editCarById(Model model, @PathVariable("id") Optional<Long> id)

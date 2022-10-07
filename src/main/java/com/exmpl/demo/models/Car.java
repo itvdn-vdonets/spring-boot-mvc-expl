@@ -1,5 +1,7 @@
 package com.exmpl.demo.models;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,8 +15,8 @@ public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    private String mark;
+	@Length(min = 0, max = 1000)
+	private String mark;
     
     private String model;
     
